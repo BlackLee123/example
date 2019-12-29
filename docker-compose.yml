@@ -1,0 +1,15 @@
+version: "3"
+services:
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    container_name: mongodb
+
+  app:
+    image: blacklee123/example:0.0.2
+    ports:
+      - "8888:8888"
+    container_name: example
+    depends_on:
+      - mongo
