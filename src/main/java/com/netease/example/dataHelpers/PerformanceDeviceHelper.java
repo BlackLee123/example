@@ -1,4 +1,4 @@
-package com.netease.example.DataHelpers;
+package com.netease.example.dataHelpers;
 
 import com.netease.example.models.repositories.UserRepository;
 import com.netease.example.models.user.User;

@@ -1,5 +1,6 @@
 package com.netease.example.controllers;
 
+import com.netease.example.dao.UserDao;
 import com.netease.example.models.MyResponseContent;
 import com.netease.example.models.repositories.UserRepository;
 import com.netease.example.models.user.User;
@@ -20,10 +21,14 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private UserDao userDao;
+
     @ApiOperation(value = "通过id获取用户信息", notes="返回用户信息")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public MyResponseContent getUserById(@PathVariable String id) {
         User user = userRepository.findById(id).get();
+        com.netease.example.domain.User user1 = userDao.selectByPrimaryKey(Integer.parseInt(id));
         logger.info("获取成功");
         return new MyResponseContent<>(true, user, "获取成功");
     }
