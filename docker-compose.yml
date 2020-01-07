@@ -1,15 +1,28 @@
 version: "3"
 services:
+
   mongo:
     image: mongo
     ports:
       - "27017:27017"
-    container_name: mongodb
+    volumes:
+      - ./mongodb/db:/data/db
+    restart: unless-stopped
 
-  app:
-    image: blacklee123/example:0.0.2
+  mysql:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=aaaaaa
     ports:
-      - "8888:8888"
-    container_name: example
-    depends_on:
-      - mongo
+      - 3306:3306
+    volumes:
+      - ./mysqldb:/var/lib/mysql/
+    restart: unless-stopped
+
+#  app:
+#    image: blacklee123/example:0.0.2
+#    ports:
+#      - "10086:10086"
+#    depends_on:
+#      - mongo
+#      - mysql

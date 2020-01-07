@@ -1,6 +1,8 @@
 package com.netease.example.dao;
 
 import com.netease.example.domain.User;
+import org.apache.ibatis.annotations.Mapper;
+
 import java.util.List;
 
 public interface UserDao {
