@@ -1,56 +1,63 @@
 package com.netease.example.controllers;
 
+import com.netease.example.models.MyResponseContent;
 import com.netease.example.models.repositories.UserRepository;
 import com.netease.example.models.user.User;
 import io.swagger.annotations.ApiOperation;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Autowired
     private UserRepository userRepository;
 
     @ApiOperation(value = "通过id获取用户信息", notes="返回用户信息")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity<Object> getUserById(@PathVariable String id) {
+    public MyResponseContent getUserById(@PathVariable String id) {
         User user = userRepository.findById(id).get();
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        logger.info("获取成功");
+        return new MyResponseContent<>(true, user, "获取成功");
     }
 
-    @ApiOperation(value = "通过id获取用户信息", notes="返回用户信息")
+    @ApiOperation(value = "创建用户", notes="创建用户")
     @RequestMapping(value = "/", method = RequestMethod.POST)
-    public ResponseEntity<Object> addUser(@RequestBody User user) {
+    public MyResponseContent addUser(@RequestBody User user) {
         userRepository.insert(user);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+        logger.info("创建成功");
+        return new MyResponseContent<>(true, user, "创建成功");
     }
 
-    @ApiOperation(value = "获取所有用户", notes="返回用户信息")
+    @ApiOperation(value = "获取所有用户", notes="返回所有用户信息")
     @RequestMapping(value = "/allUser", method = RequestMethod.GET)
-    public ResponseEntity<Object> getAllUser() {
+    public MyResponseContent getAllUser() {
         List<User> users = userRepository.findAll();
-        return new ResponseEntity<>(users, HttpStatus.OK);
+        logger.info("获取所有用户成功");
+        return new MyResponseContent<>(true, users, "获取所有用户成功");
     }
 
-    @ApiOperation(value = "获取所有用户", notes="返回用户信息")
+    @ApiOperation(value = "删除用户", notes="删除用户")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> deleteUser(@PathVariable String id) {
+    public MyResponseContent deleteUser(@PathVariable String id) {
         userRepository.deleteById(id);
-        return new ResponseEntity<>(true, HttpStatus.OK);
+        logger.info("删除成功");
+        return new MyResponseContent<>(true, null, "删除成功");
     }
 
-    @ApiOperation(value = "获取所有用户", notes="返回用户信息")
+    @ApiOperation(value = "根据id更新用户", notes="更新用户信息")
     @RequestMapping(value = "/{id}", method = RequestMethod.PATCH)
-    public ResponseEntity<Object> updateUser(@RequestBody User user) {
+    public MyResponseContent updateUser(@RequestBody User user) {
         userRepository.save(user);
-        return new ResponseEntity<>(true, HttpStatus.OK);
+        logger.info("更新成功");
+        return new MyResponseContent<>(true, user, "更新成功");
     }
 
 }
