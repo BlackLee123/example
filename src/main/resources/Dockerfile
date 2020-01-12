@@ -1,4 +1,4 @@
 FROM java:8
-ADD example-0.0.2.jar app.jar
-EXPOSE 10086
+COPY example-0.0.1.jar app.jar
+EXPOSE 9001
 CMD java -jar app.jar --spring.profiles.active=prod
