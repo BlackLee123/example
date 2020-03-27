@@ -31,7 +31,7 @@ public class ExampleApplication {
 	 *
 	 * @return
 	 */
-	@Profile({"debug"})
+	@Profile({"dev"})
 	@Bean
 	public CorsFilter corsFilter() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
