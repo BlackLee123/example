@@ -21,6 +21,12 @@ public class UserRepository {
         return user;
     }
 
+    public User findByName(String name) {
+        Query query = new Query(Criteria.where("name").is(name));
+        User user = mongoTemplate.findOne(query, User.class);
+        return user;
+    }
+
     public void insert(User user) {
         mongoTemplate.insert(user);
     }
