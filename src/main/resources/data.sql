@@ -1,0 +1,1 @@
+INSERT INTO user (ID, name, age, phone) VALUES (1, 'libai', 18, '15656564262');

@@ -5,7 +5,7 @@ import java.sql.Connection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-// import org.mybatis.spring.annotation.MapperScan;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
@@ -16,9 +16,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.jdbc.core.JdbcTemplate;
 
 //@SpringBootApplication(exclude={MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
-// @MapperScan("com.netease.example.dao")
+@MapperScan("com.netease.example.dao")
 @Slf4j
 @SpringBootApplication
 public class ExampleApplication implements CommandLineRunner {
@@ -26,12 +27,16 @@ public class ExampleApplication implements CommandLineRunner {
 	@Autowired
 	private DataSource dataSource;
 
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+
 	@Override
 	public void run(String... args) throws Exception {
 		log.info(dataSource.toString());
 		Connection conn = dataSource.getConnection();
 		log.info(conn.toString());
 		conn.close();
+		showData();
 	}
 
 	private CorsConfiguration buildConfig() {
@@ -53,6 +58,10 @@ public class ExampleApplication implements CommandLineRunner {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", buildConfig());
 		return new CorsFilter(source);
+	}
+
+	private void showData() {
+		jdbcTemplate.queryForList("SELECT * FROM user").forEach(row -> log.info(row.toString()));
 	}
 
 	public static void main(String[] args) {
