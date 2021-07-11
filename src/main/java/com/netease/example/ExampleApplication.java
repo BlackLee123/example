@@ -1,22 +1,38 @@
 package com.netease.example;
 
-import org.mybatis.spring.annotation.MapperScan;
+import javax.sql.DataSource;
+import java.sql.Connection;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
+// import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import lombok.extern.slf4j.Slf4j;
 
 //@SpringBootApplication(exclude={MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})
-@EnableDiscoveryClient
-@MapperScan("com.netease.example.dao")
+// @MapperScan("com.netease.example.dao")
+@Slf4j
 @SpringBootApplication
-public class ExampleApplication {
+public class ExampleApplication implements CommandLineRunner {
+
+	@Autowired
+	private DataSource dataSource;
+
+	@Override
+	public void run(String... args) throws Exception {
+		log.info(dataSource.toString());
+		Connection conn = dataSource.getConnection();
+		log.info(conn.toString());
+		conn.close();
+	}
 
 	private CorsConfiguration buildConfig() {
 		CorsConfiguration corsConfiguration = new CorsConfiguration();
@@ -31,14 +47,13 @@ public class ExampleApplication {
 	 *
 	 * @return
 	 */
-	@Profile({"dev"})
+	@Profile({ "dev" })
 	@Bean
 	public CorsFilter corsFilter() {
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", buildConfig());
 		return new CorsFilter(source);
 	}
-
 
 	public static void main(String[] args) {
 		SpringApplication.run(ExampleApplication.class, args);

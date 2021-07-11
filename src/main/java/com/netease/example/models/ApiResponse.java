@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class MyResponseContent<T> {
+public class ApiResponse<T> {
 
     private boolean success;
 
@@ -19,7 +19,7 @@ public class MyResponseContent<T> {
 
     private int code;
 
-    public MyResponseContent(boolean success, T data, String message){
+    public ApiResponse(boolean success, T data, String message) {
         this.success = success;
         this.data = data;
         this.message = message;
