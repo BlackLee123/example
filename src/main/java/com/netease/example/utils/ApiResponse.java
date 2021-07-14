@@ -1,4 +1,4 @@
-package com.netease.example.models;
+package com.netease.example.utils;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;

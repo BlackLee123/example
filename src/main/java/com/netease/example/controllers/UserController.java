@@ -1,15 +1,12 @@
 package com.netease.example.controllers;
 
 import com.netease.example.dao.UserDao;
-import com.netease.example.models.ApiResponse;
+import com.netease.example.utils.ApiResponse;
 // import com.netease.example.models.repositories.UserRepository;
-import com.netease.example.models.user.User;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RestController
