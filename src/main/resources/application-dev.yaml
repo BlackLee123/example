@@ -7,6 +7,9 @@ spring:
 
 sentry:
   dsn: https://41b4f71382434a5fa07b878669eb9f38@o428088.ingest.sentry.io/5373066
+  logging:
+    minimum-event-level: info
+    minimum-breadcrumb-level: debug
 
 # mongodb
 # spring.data.mongodb.host = 127.0.0.1
